@@ -66,19 +66,22 @@ def FREAK():
     return FREAK
 
 
-sift =SIFT()
-kp1, des1 = sift.detectAndCompute(imgTarget, None)
+_detect=SIFT()
+_compute =SIFT()
+kp1=_detect.detect(imgTarget,None)
+kp1, des1=_compute.compute(imgTarget, kp1)
+# kp1, des1 = sift.detectAndCompute(imgTarget, None)
 imgTarget1=cv2.drawKeypoints(imgTarget,kp1,None)
-# cv2.imshow("tt",imgTarget1)
-# cv2.waitKey(0)
+cv2.imshow("tt",imgTarget1)
+cv2.waitKey(0)
 while (True):
     sucess, imgWebcam = cap.read()
     imgAug=imgWebcam.copy()
-
-    kp2, des2 = sift.detectAndCompute(imgWebcam, None)
+    kp2 = _detect.detect(imgWebcam, None)
+    kp2, des2 = _compute.compute(imgWebcam, kp2)
+    # kp2, des2 = sift.detectAndCompute(imgWebcam, None)
     # imgWebcam=cv2.drawKeypoints(imgWebcam,kp1,None)
     bf = cv2.BFMatcher(normType = cv2.NORM_L2,crossCheck = True)
-
     if (type(des1)!=type(st) and type(des2)!=type(st)):
         matches = bf.match(des1, des2)
         good = []
